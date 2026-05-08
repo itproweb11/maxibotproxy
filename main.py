@@ -9,16 +9,14 @@ def start(message):
     markup = InlineKeyboardMarkup(row_width=2)
     markup.add(
         InlineKeyboardButton("💰 Тарифы", callback_data="tariffs"),
-        InlineKeyboardButton("🛒 Купить", callback_data="buy"),
+        InlineKeyboardButton("🛒 Купить", callback_data="buy")
+    )
+    markup.add(
         InlineKeyboardButton("👤 Личный кабинет", web_app=WebAppInfo(url="https://maxiproxy.net")),
         InlineKeyboardButton("🛠 Поддержка", callback_data="support")
     )
     
-    bot.send_message(
-        message.chat.id, 
-        "👋 Привет! Это MaxiBot Proxy.\n\nВыбери нужный раздел:", 
-        reply_markup=markup
-    )
+    bot.reply_to(message, "👋 Привет! Это MaxiBot Proxy.\n\nВыбери нужный раздел:", reply_markup=markup)
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback(call):
@@ -44,7 +42,9 @@ def callback(call):
         markup = InlineKeyboardMarkup(row_width=2)
         markup.add(
             InlineKeyboardButton("💰 Тарифы", callback_data="tariffs"),
-            InlineKeyboardButton("🛒 Купить", callback_data="buy"),
+            InlineKeyboardButton("🛒 Купить", callback_data="buy")
+        )
+        markup.add(
             InlineKeyboardButton("👤 Личный кабинет", web_app=WebAppInfo(url="https://maxiproxy.net")),
             InlineKeyboardButton("🛠 Поддержка", callback_data="support")
         )
