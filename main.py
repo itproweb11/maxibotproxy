@@ -16,6 +16,7 @@ def start(message):
         InlineKeyboardButton("🛠 Поддержка", callback_data="support")
     )
     
+    # Используем reply_to — лучше работает в группах
     bot.reply_to(message, "👋 Привет! Это MaxiBot Proxy.\n\nВыбери нужный раздел:", reply_markup=markup)
 
 @bot.callback_query_handler(func=lambda call: True)
@@ -35,8 +36,7 @@ def callback(call):
         bot.edit_message_text("🔗 Переходи к оплате:", chat_id, msg_id, reply_markup=markup)
 
     elif call.data == "support":
-        bot.send_message(chat_id, "🛠 Пиши напрямую админу 👇")
-        bot.send_message(chat_id, "https://t.me/ivan_diner")
+        bot.send_message(chat_id, "🛠 Пиши напрямую админу 👇\nhttps://t.me/ivan_diner")
 
     elif call.data == "back":
         markup = InlineKeyboardMarkup(row_width=2)
