@@ -10,8 +10,6 @@ def start(message):
     markup.add(
         InlineKeyboardButton("💰 Тарифы", callback_data="tariffs"),
         InlineKeyboardButton("🛒 Купить", callback_data="buy"),
-    )
-    markup.add(
         InlineKeyboardButton("👤 Личный кабинет", web_app=WebAppInfo(url="https://maxiproxy.net")),
         InlineKeyboardButton("🛠 Поддержка", callback_data="support")
     )
@@ -47,8 +45,6 @@ def callback(call):
         markup.add(
             InlineKeyboardButton("💰 Тарифы", callback_data="tariffs"),
             InlineKeyboardButton("🛒 Купить", callback_data="buy"),
-        )
-        markup.add(
             InlineKeyboardButton("👤 Личный кабинет", web_app=WebAppInfo(url="https://maxiproxy.net")),
             InlineKeyboardButton("🛠 Поддержка", callback_data="support")
         )
