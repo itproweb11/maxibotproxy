@@ -4,8 +4,8 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 
 bot = telebot.TeleBot(os.getenv("BOT_TOKEN"))
 
-# Главное меню
-def main_menu():
+@bot.message_handler(commands=['start'])
+def start(message):
     markup = InlineKeyboardMarkup(row_width=2)
     markup.add(
         InlineKeyboardButton("💰 Тарифы", callback_data="tariffs"),
@@ -15,45 +15,20 @@ def main_menu():
         InlineKeyboardButton("👤 Личный кабинет", web_app=WebAppInfo(url="https://maxiproxy.net")),
         InlineKeyboardButton("🛠 Поддержка", callback_data="support")
     )
-    return markup
-
-@bot.message_handler(commands=['start'])
-def start(message):
-    bot.reply_to(                           # ← лучше работает в группах
-        message,
-        "👋 Привет! Это MaxiBot Proxy.\n\nВыбери нужный раздел:",
-        reply_markup=main_menu()
-    )
+    
+    bot.reply_to(message, "👋 Привет! Это MaxiBot Proxy.\n\nВыбери нужный раздел:", reply_markup=markup)
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback(call):
-    bot.answer_callback_query(call.id)      # Обязательно для групп!
-    chat_id = call.message.chat.id
+    bot.answer_callback_query(call.id)   # обязательно для групп
 
     if call.data == "tariffs":
-        markup = InlineKeyboardMarkup()
-        markup.add(InlineKeyboardButton("← Назад", callback_data="back"))
-        bot.send_message(chat_id, 
-            "📋 Доступные тарифы:\n\n"
-            "• 1 неделя — 0 руб\n"
-            "• 1 месяц — 200 руб\n"
-            "• 3 месяца — 390 руб\n"
-            "• 6 месяцев — 690 руб\n"
-            "• 12 месяцев — 1190 руб",
-            reply_markup=markup)
+        bot.send_message(call.message.chat.id, "📋 Доступные тарифы:\n\n• 1 неделя — 0 руб\n• 1 месяц — 200 руб\n• 3 месяца — 390 руб\n• 6 месяцев — 690 руб\n• 12 месяцев — 1190 руб")
 
     elif call.data == "buy":
-        markup = InlineKeyboardMarkup()
-        markup.add(InlineKeyboardButton("Перейти к оплате", url="https://maxiproxy.net"))
-        markup.add(InlineKeyboardButton("← Назад", callback_data="back"))
-        bot.send_message(chat_id, "🔗 Переходи к оплате:", reply_markup=markup)
+        bot.send_message(call.message.chat.id, "🔗 Переходи к оплате:\nhttps://maxiproxy.net")
 
     elif call.data == "support":
-        markup = InlineKeyboardMarkup()
-        markup.add(InlineKeyboardButton("← Назад", callback_data="back"))
-        bot.send_message(chat_id, "🛠 Пиши напрямую админу 👇\nhttps://t.me/ivan_diner", reply_markup=markup)
-
-    elif call.data == "back":
-        bot.send_message(chat_id, "👋 Привет! Это MaxiBot Proxy.\n\nВыбери нужный раздел:", reply_markup=main_menu())
+        bot.send_message(call.message.chat.id, "🛠 Пиши напрямую админу 👇\nhttps://t.me/ivan_diner")
 
 bot.infinity_polling()
