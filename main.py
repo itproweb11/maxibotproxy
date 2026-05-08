@@ -1,8 +1,18 @@
 import telebot
 import os
+import logging
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-bot = telebot.TeleBot(os.getenv("BOT_TOKEN"))
+# Настройка логирования
+logging.basicConfig(level=logging.INFO)
+
+# Проверка наличия токена
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+if BOT_TOKEN is None:
+    logging.error("BOT_TOKEN not found in environment variables.")
+    exit(1)
+
+bot = telebot.TeleBot(BOT_TOKEN)
 
 # Главное меню
 def main_menu():
@@ -58,7 +68,7 @@ def callback(call):
             bot.send_message(chat_id, "👋 Привет! Это MaxiBot Proxy.\n\nВыбери нужный раздел:", reply_markup=main_menu())
 
     except Exception as e:
-        # Обработка возможных ошибок
+        logging.error("Произошла ошибка: %s", str(e))  # Логгирование ошибки
         bot.send_message(chat_id, "Произошла ошибка, попробуйте снова.")
 
 bot.infinity_polling()
