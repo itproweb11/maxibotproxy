@@ -4,6 +4,7 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 
 bot = telebot.TeleBot(os.getenv("BOT_TOKEN"))
 
+# Работает и в личке, и в группах
 @bot.message_handler(commands=['start'])
 def start(message):
     markup = InlineKeyboardMarkup(row_width=2)
@@ -13,7 +14,12 @@ def start(message):
         InlineKeyboardButton("👤 Личный кабинет", web_app=WebAppInfo(url="https://maxiproxy.net")),
         InlineKeyboardButton("🛠 Поддержка", callback_data="support")
     )
-    bot.send_message(message.chat.id, "👋 Привет! Это MaxiBot Proxy.\n\nВыбери нужный раздел:", reply_markup=markup)
+    
+    bot.send_message(
+        message.chat.id, 
+        "👋 Привет! Это MaxiBot Proxy.\n\nВыбери нужный раздел:", 
+        reply_markup=markup
+    )
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback(call):
