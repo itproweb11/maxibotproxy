@@ -4,6 +4,7 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 
 bot = telebot.TeleBot(os.getenv("BOT_TOKEN"))
 
+# Работает и в личке, и в группах
 @bot.message_handler(commands=['start'])
 def start(message):
     markup = InlineKeyboardMarkup(row_width=2)
