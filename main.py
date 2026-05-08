@@ -21,11 +21,11 @@ def start(message):
 @bot.callback_query_handler(func=lambda call: True)
 def callback(call):
     if call.data == "tariffs":
-        bot.answer_callback_query(call.id, "📋 Тарифы открыты")
+        bot.answer_callback_query(call.id)  # обязательно!
         bot.send_message(call.message.chat.id, "📋 Доступные тарифы:\n\n• 1 неделя — 0 руб\n• 1 месяц — 200 руб\n• 3 месяца — 390 руб\n• 6 месяцев — 690 руб\n• 12 месяцев — 1190 руб")
 
     elif call.data == "buy":
-        bot.answer_callback_query(call.id, "Переход к оплате")
+        bot.answer_callback_query(call.id)
         bot.send_message(call.message.chat.id, "🔗 Переходи к оплате:\nhttps://maxiproxy.net")
 
     elif call.data == "support":
